@@ -1,6 +1,6 @@
 # AI Chatbot Environment
 
-This project sets up an AI environment using Docker Compose, integrating various services like Open WebUI, Ollama, and LiteLLM.
+This project sets up an AI chatbot environment using Docker Compose, integrating various services like Open WebUI, Ollama, and LiteLLM.
 
 ## Services
 
@@ -21,7 +21,7 @@ cp .env.example .env
 3. Build and run the services:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 4. Access the frontend at `http://localhost:7000`.
@@ -35,7 +35,8 @@ docker-compose up -d
 
 ## Notes
 
-- `backend` depends on `db` being healthy.
+- It requires a Gemini API key to setup the config model, which is `gemini-2.0-flash`. It is currently free and can be obtained from the Google AI Studio website.
+- `backend` depends on `db` being healthy. `frontend` depends on `ollama` being healthy.
 - GPU support is configured for `ollama` and requires NVIDIA cards. Ensure you have the latest drivers, CUDA, and Docker configured for GPU support.
-- `ollama` local models can be downloaded from the frontend via the Admin Settings. 
-- Models from external providers can be added by logging in as an admin to `http://localhost:7001/ui` and clicking on the `Models` tab, given you have the correct API key for each provider. 
+- `ollama` local models can be downloaded from the frontend via the Admin Settings.
+- Models from external providers can be added by logging in as an admin to `http://localhost:7001/ui` and clicking on the `Models` tab, given you have the correct API key for each provider.

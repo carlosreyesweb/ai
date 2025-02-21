@@ -1,0 +1,47 @@
+services:
+  frontend:
+    image: ghcr.io/open-webui/open-webui:latest
+    env_file: .env
+    ports:
+      - "7000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      - ollama
+  ollama:
+    image: ollama/ollama:latest
+    pull_policy: always
+    tty: true
+    volumes:
+      - ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities:
+                - gpu
+  backend:
+    image: ghcr.io/berriai/litellm:main-latest
+    env_file: .env
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml:ro
+    command: ["--config", "/app/config.yaml", "--detailed_debug"]
+    ports:
+      - "7001:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:latest
+    env_file: .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  open-webui: {}
+  ollama: {}

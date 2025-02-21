@@ -1,0 +1,9 @@
+model_list:
+  - model_name: gemini-2.0-flash
+    litellm_params:
+      model: gemini/gemini-2.0-flash
+      api_key: os.environ/GEMINI_API_KEY
+
+general_settings:
+  database_url: "postgresql://postgres:postgres@db:5432/litellm"
+  store_model_in_db: true

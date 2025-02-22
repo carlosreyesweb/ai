@@ -8,6 +8,7 @@ services:
       - open-webui:/app/backend/data
     depends_on:
       - ollama
+    restart: always
   ollama:
     image: ollama/ollama:latest
     pull_policy: always
@@ -22,6 +23,7 @@ services:
               count: 1
               capabilities:
                 - gpu
+    restart: always
   backend:
     image: ghcr.io/berriai/litellm:main-latest
     env_file: .env
@@ -33,6 +35,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: always
   db:
     image: postgres:latest
     env_file: .env
@@ -41,6 +44,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: always
 
 volumes:
   open-webui: {}
